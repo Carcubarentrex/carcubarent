@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renta de Autos en Cuba</title>
+    <title>Cuba Renta Car - Alquiler de Autos en Cuba</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -12,9 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb', // Azul claro
-                        secondary: '#1e40af', // Azul oscuro
-                        accent: '#f59e0b', // Naranja/Amarillo
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        accent: '#f59e0b',
                     }
                 }
             }
@@ -23,31 +23,44 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { 
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Menú de Navegación -->
-    <nav class="bg-white shadow-sm fixed w-full z-50 top-0">
+    <nav class="bg-white/85 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center cursor-pointer" onclick="showSection('inicio')">
-                    <!-- LOGO PRINCIPAL -->
-                    <img src="img/logo.png" onerror="this.src='https://placehold.co/150x50/ffffff/a1a1aa?text=TU+LOGO'" alt="Logo Renta de Autos" class="h-10">
+                    <img src="img/logo.png" onerror="this.src='https://placehold.co/150x50/2563eb/ffffff?text=Cuba+Renta+Car'" alt="Logo Renta de Autos" class="h-10">
                 </div>
                 
                 <!-- Menú Desktop -->
-                <div class="hidden md:flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-6">
                     <a href="#" onclick="showSection('inicio'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Inicio</a>
                     <a href="#" onclick="showSection('quienes-somos'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Nosotros</a>
                     <a href="#" onclick="showSection('flota'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Flota</a>
                     <a href="#" onclick="showSection('reserva'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Reservar</a>
                     <a href="#" onclick="showSection('rastreo'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Rastrear Orden</a>
+                    <a href="#" onclick="showSection('terminos'); return false;" class="text-gray-600 hover:text-primary font-medium transition">Términos</a>
                     
-                    <!-- Botón WhatsApp Navbar -->
-                    <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto%20de%20su%20compa%C3%B1%C3%ADa." target="_blank" class="flex items-center text-green-600 font-bold hover:text-green-700 hover:scale-105 transition">
-                        <i class="fa-brands fa-whatsapp text-2xl mr-2"></i>
-                        +53 58423730
+                    <!-- Botón Panel Admin (Oculto por defecto para los clientes) -->
+                    <button id="adminNavBtn" onclick="protegerAdmin()" class="hidden text-xs text-primary bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition font-bold" title="Panel Admin"><i class="fa-solid fa-lock mr-1"></i> Panel Admin</button>
+
+                    <!-- Botón Mi Cuenta -->
+                    <button onclick="toggleModalAuth()" id="btnCuentaNav" class="text-white bg-gray-900 hover:bg-gray-800 px-4 py-2 rounded-xl font-medium transition shadow-md flex items-center">
+                        <i class="fa-regular fa-user mr-2"></i>Mi Cuenta
+                    </button>
+
+                    <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto." target="_blank" class="flex items-center text-green-600 font-bold hover:text-green-700 transition">
+                        <i class="fa-brands fa-whatsapp text-2xl mr-1"></i> +53 58423730
                     </a>
                 </div>
 
@@ -61,35 +74,34 @@
         </div>
 
         <!-- Menú Desplegable Móvil -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100">
+            <div class="px-4 pt-2 pb-4 space-y-2">
                 <a href="#" onclick="showSection('inicio'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Inicio</a>
                 <a href="#" onclick="showSection('quienes-somos'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Nosotros</a>
                 <a href="#" onclick="showSection('flota'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Flota</a>
                 <a href="#" onclick="showSection('reserva'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Reservar</a>
                 <a href="#" onclick="showSection('rastreo'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Rastrear Orden</a>
                 <a href="#" onclick="showSection('terminos'); return false;" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Términos y Condiciones</a>
-                
-                <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto%20de%20su%20compa%C3%B1%C3%ADa." target="_blank" class="block px-3 py-2 text-green-600 font-bold hover:bg-green-50 rounded-md flex items-center">
-                    <i class="fa-brands fa-whatsapp text-xl mr-2"></i> +53 58423730
-                </a>
+                <a href="#" id="adminMobileNavBtn" onclick="protegerAdmin()" class="hidden px-3 py-2 text-primary font-bold hover:bg-blue-50 rounded-md"><i class="fa-solid fa-lock mr-1"></i> Panel Admin</a>
+                <a href="#" onclick="toggleModalAuth(); return false;" class="block px-3 py-2 text-gray-800 font-bold hover:bg-gray-50 rounded-md">Iniciar Sesión / Cuenta</a>
             </div>
         </div>
     </nav>
 
     <!-- Botón Flotante Global WhatsApp -->
-    <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto%20de%20su%20compa%C3%B1%C3%ADa." target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all duration-300 z-50 flex items-center justify-center animate-bounce cursor-pointer">
+    <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto." target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all duration-300 z-40 flex items-center justify-center animate-bounce cursor-pointer">
         <i class="fa-brands fa-whatsapp text-4xl"></i>
     </a>
 
     <!-- SECCIONES PRINCIPALES (SPA) -->
     
-    <!-- Sección Hero (Principal) -->
+    <!-- Sección Hero -->
     <section id="inicio" class="pt-20">
-        <div class="relative bg-gray-900 h-[calc(100vh-80px)] flex items-center">
-            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Auto en carretera" class="absolute inset-0 w-full h-full object-cover opacity-40">
+        <div class="relative h-[calc(100vh-80px)] flex items-center overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Auto en carretera" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent"></div>
             
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left z-10 w-full">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                     Descubre Cuba a tu propio ritmo
                 </h1>
@@ -97,10 +109,10 @@
                     Renta de autos segura, confiable y con los mejores precios. Recoge tu vehículo en el aeropuerto y comienza tu aventura.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <button onclick="showSection('flota')" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg text-center shadow-lg">
+                    <button onclick="showSection('flota')" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-lg">
                         Ver Flota
                     </button>
-                    <button onclick="showSection('reserva')" class="bg-white hover:bg-gray-100 text-gray-900 font-bold py-3 px-8 rounded-lg transition duration-300 text-lg text-center shadow-lg">
+                    <button onclick="showSection('reserva')" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg">
                         Reservar Ahora
                     </button>
                 </div>
@@ -115,261 +127,82 @@
                 <div class="mb-12 lg:mb-0">
                     <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b-4 border-primary inline-block pb-2">¿Quiénes Somos?</h2>
                     <p class="text-gray-600 mb-4 leading-relaxed">
-                        Somos una empresa especializada en el servicio de renta de coches en Cuba, nuestro equipo lleva años trabajando para garantizar que el servicio contratado sea óptimo y que su experiencia en Cuba sea inolvidable. Tenemos vehículos de siete plazas para las familias más numerosas, así como una muy practica moto triciclo que le permitirá desplazarse por toda la ciudad si viaja solo.
+                        Somos una empresa especializada en el servicio de renta de coches en Cuba, nuestro equipo lleva años trabajando para garantizar que el servicio contratado sea óptimo y que su experiencia en Cuba sea inolvidable.
                     </p>
-                    <p class="text-gray-600 mb-8 leading-relaxed">
-                        Pero si lo que busca es algo fuera de lo común, para hacer alguna excursión o moverse con facilidad por un terreno escarpado, en nuestro listado de coches disponibles encontrará diversos todoterrenos por un precio excepcional que le ofrecerán confort y espacio para viajar. Así mismo, en nuestro listado de vehículos disponibles podrá encontrar berlinas muy elegantes, ideales para quienes tienen que desplazarse a reuniones de negocios.
-                    </p>
-                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Finalmente, si se pregunta quién es CubaRentaCarOnline, pues:</h3>
-                        <ul class="space-y-4 mb-6">
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i>
-                                <span class="text-gray-700">Un equipo muy profesional, joven y dinámico, con gran experiencia en el sector del turismo.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i>
-                                <span class="text-gray-700">Contamos con una web clara y segura donde mostramos una amplia gama de coches económicos, familiares o de lujo. Con nosotros siempre encontrará el coche que mejor se adapte a sus necesidades.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i>
-                                <span class="text-gray-700">Tenemos las mejores ofertas y precios del mercado.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i>
-                                <span class="text-gray-700">Trabajamos con muchos colaboradores a través de los cuales podemos brindar servicios a medida para completar su escapada.</span>
-                            </li>
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm mt-6">
+                        <ul class="space-y-4">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i><span class="text-gray-700">Equipo profesional y dinámico con gran experiencia.</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i><span class="text-gray-700">Amplia gama de coches económicos, familiares o de lujo.</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-primary mt-1 mr-3 text-lg"></i><span class="text-gray-700">Las mejores ofertas y precios del mercado.</span></li>
                         </ul>
-                        <p class="text-2xl font-bold text-primary text-center mt-6">¡Les esperamos!</p>
                     </div>
                 </div>
                 <div class="relative rounded-3xl shadow-2xl overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1533558701576-23c65e0272fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Conduciendo por Cuba" class="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end">
-                        <div class="p-8">
-                            <h3 class="text-white font-bold text-3xl mb-2">Tu mejor experiencia</h3>
-                            <p class="text-gray-200 text-lg">Garantizamos calidad, confort y seguridad en cada kilómetro de tu viaje.</p>
-                        </div>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1533558701576-23c65e0272fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Viaje Cuba" class="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sección Nuestra Flota -->
+    <!-- Sección Flota -->
     <section id="flota" class="pt-28 pb-20 bg-gray-50 hidden min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Nuestra Flota</h2>
                 <div class="w-24 h-1 bg-primary mx-auto rounded"></div>
-                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Selecciona el vehículo que mejor se adapte a tu viaje. Contamos con opciones económicas, familiares y de lujo.</p>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Selecciona el vehículo que mejor se adapte a tu viaje.</p>
             </div>
 
-            <!-- Grid de Autos -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Auto 1 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto1.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+MG3'" alt="MG3" class="w-full h-56 object-cover">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition group">
+                    <div class="relative overflow-hidden">
+                        <img src="img/auto1.jpg" onerror="this.src='https://placehold.co/600x400/f8fafc/94a3b8?text=MG3'" alt="MG3" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-sm">
+                            <span class="text-primary font-bold text-lg">$60</span><span class="text-gray-500 text-sm">/día</span>
+                        </div>
+                    </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">MG3</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$60/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Económica Manual (Cubacar Transtur)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (45 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (256 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Manual</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Requiere licencia de conducción válida con al menos 3 meses de vigencia.
-                        </div>
-                        <button onclick="selectCarAndScroll('MG3 - Económica Manual')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">MG3</h3>
+                        <p class="text-sm text-gray-500 mb-4">Económica Manual</p>
+                        <button onclick="selectCarAndScroll('MG3 - Económica Manual')" class="w-full bg-gray-900 hover:bg-primary text-white font-semibold py-3 rounded-xl transition">Elegir Modelo</button>
                     </div>
                 </div>
 
                 <!-- Auto 2 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto2.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Hyundai+i10'" alt="Hyundai i10" class="w-full h-56 object-cover">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition group">
+                    <div class="relative overflow-hidden">
+                        <img src="img/auto2.jpg" onerror="this.src='https://placehold.co/600x400/f8fafc/94a3b8?text=Hyundai+i10'" alt="Hyundai i10" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-sm">
+                            <span class="text-primary font-bold text-lg">$70</span><span class="text-gray-500 text-sm">/día</span>
+                        </div>
+                    </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Hyundai i10</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$70/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Económica Automática (Havanautos)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (35 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (255 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $14/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Hyundai i10 - Económica Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Hyundai i10</h3>
+                        <p class="text-sm text-gray-500 mb-4">Económica Automática</p>
+                        <button onclick="selectCarAndScroll('Hyundai i10 - Económica Automática')" class="w-full bg-gray-900 hover:bg-primary text-white font-semibold py-3 rounded-xl transition">Elegir Modelo</button>
                     </div>
                 </div>
 
                 <!-- Auto 3 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto3.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Yixuan+Manual'" alt="Dongfeng Aeolus Yixuan" class="w-full h-56 object-cover">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition group">
+                    <div class="relative overflow-hidden">
+                        <img src="img/auto3.jpg" onerror="this.src='https://placehold.co/600x400/f8fafc/94a3b8?text=Dongfeng+Yixuan'" alt="Dongfeng Yixuan" class="w-full h-56 object-cover">
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-sm">
+                            <span class="text-primary font-bold text-lg">$75</span><span class="text-gray-500 text-sm">/día</span>
+                        </div>
+                    </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Dongfeng Yixuan</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$75/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Media Manual (Cubacar Transtur)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (50 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (474 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Manual</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $14/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Dongfeng Yixuan - Media Manual')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Dongfeng Yixuan</h3>
+                        <p class="text-sm text-gray-500 mb-4">Media Manual</p>
+                        <button onclick="selectCarAndScroll('Dongfeng Yixuan - Media Manual')" class="w-full bg-gray-900 hover:bg-primary text-white font-semibold py-3 rounded-xl transition">Elegir Modelo</button>
                     </div>
                 </div>
-
-                <!-- Auto 4 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto4.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Yixuan+Auto'" alt="Dongfeng Aeolus Yixuan Automático" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Dongfeng Yixuan</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$75/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Media Automática (Havanautos)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (50 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (506 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $14/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Dongfeng Yixuan - Media Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
-                <!-- Auto 5 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto5.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+BESTUNE+T55'" alt="BESTUNE T55" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">BESTUNE T55</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$80/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">SUV Automática (Daiquiri Tours)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (50 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (350 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Modelo de SUV 100% garantizado.
-                        </div>
-                        <button onclick="selectCarAndScroll('BESTUNE T55 - SUV Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
-                <!-- Auto 6 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto6.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Hyundai+Elantra'" alt="Hyundai Elantra" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Hyundai Elantra</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$80/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Media Alta Automática (Rex)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (43 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (474 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $20/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Hyundai Elantra - Media Alta Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
-                <!-- Auto 7 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto7.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Dongfeng+Shinemax'" alt="Dongfeng Shinemax" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Dongfeng Shinemax</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$85/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Media Automática</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 5 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (50 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (421 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $15/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Dongfeng Shinemax - Media Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
-                <!-- Auto 8 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto8.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Hyundai+Santa+Fe'" alt="Hyundai Santa Fe" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Hyundai Santa Fe</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$85/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">SUV Automática (Rex)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 7 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (64 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (150 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $20/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Hyundai Santa Fe - SUV Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
-                <!-- Auto 9 -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition">
-                    <img src="img/auto9.jpg" onerror="this.src='https://placehold.co/600x400/e4e4e7/a1a1aa?text=FOTO+Maxus+G10'" alt="Maxus G10" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">Maxus G10</h3>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">$90/día</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Minivan 9 Plazas (Rex)</p>
-                        <ul class="text-gray-600 text-sm space-y-2 mb-6">
-                            <li><i class="fa-solid fa-user-group w-5 text-primary"></i> 7 Pasajeros</li>
-                            <li><i class="fa-solid fa-gas-pump w-5 text-primary"></i> Gasolina (85 L)</li>
-                            <li><i class="fa-solid fa-suitcase w-5 text-primary"></i> Equipaje (150 L)</li>
-                            <li><i class="fa-solid fa-gear w-5 text-primary"></i> Automática</li>
-                        </ul>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 text-xs text-yellow-800">
-                            <strong>Obs:</strong> Licencia válida (min 3 meses). Seguro $20/día para 21-24 o 75-80 años. No se renta a >80 años.
-                        </div>
-                        <button onclick="selectCarAndScroll('Maxus G10 - Minivan Automática')" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition">Elegir Modelo</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Sección de Reserva -->
+    <!-- Sección Reserva -->
     <section id="reserva" class="pt-28 pb-20 bg-white hidden min-h-screen">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
@@ -377,423 +210,384 @@
                     <h2 class="text-2xl font-bold text-white flex items-center">
                         <i class="fa-regular fa-calendar-check mr-3"></i> Formulario de Reserva
                     </h2>
-                    <p class="text-blue-100 mt-2 text-sm">Completa tus datos y un agente te contactará por WhatsApp para confirmar tu reserva.</p>
+                    <p class="text-blue-100 mt-2 text-sm">Completa tus datos para enviar la solicitud al sistema y a WhatsApp.</p>
                 </div>
                 
-                <form onsubmit="enviarWhatsApp(event)" class="p-8 space-y-8">
-                    <!-- Datos del Viaje -->
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">1. Detalles de Renta</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Vehículo Deseado</label>
-                                <select id="carro" onchange="calcularPrecio()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none bg-gray-50 transition" required>
-                                    <option value="" data-precio="0" disabled selected>Selecciona un auto...</option>
-                                    <option value="MG3 - Económica Manual" data-precio="60">MG3 - Económica Manual ($60/día)</option>
-                                    <option value="Hyundai i10 - Económica Automática" data-precio="70">Hyundai i10 - Económica Automática ($70/día)</option>
-                                    <option value="Dongfeng Yixuan - Media Manual" data-precio="75">Dongfeng Yixuan - Media Manual ($75/día)</option>
-                                    <option value="Dongfeng Yixuan - Media Automática" data-precio="75">Dongfeng Yixuan - Media Automática ($75/día)</option>
-                                    <option value="BESTUNE T55 - SUV Automática" data-precio="80">BESTUNE T55 - SUV Automática ($80/día)</option>
-                                    <option value="Hyundai Elantra - Media Alta Automática" data-precio="80">Hyundai Elantra - Media Alta Automática ($80/día)</option>
-                                    <option value="Dongfeng Shinemax - Media Automática" data-precio="85">Dongfeng Shinemax - Media Automática ($85/día)</option>
-                                    <option value="Hyundai Santa Fe - SUV Automática" data-precio="85">Hyundai Santa Fe - SUV Automática ($85/día)</option>
-                                    <option value="Maxus G10 - Minivan Automática" data-precio="90">Maxus G10 - Minivan Automática ($90/día)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Aeropuerto de Recogida / Devolución</label>
-                                <select id="aeropuerto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none bg-gray-50 transition" required>
-                                    <option value="" disabled selected>Selecciona el aeropuerto...</option>
-                                    <option value="La Habana (José Martí)">La Habana (José Martí)</option>
-                                    <option value="Varadero (Juan Gualberto Gómez)">Varadero (Juan Gualberto Gómez)</option>
-                                    <option value="Santa Clara (Abel Santamaría)">Santa Clara (Abel Santamaría)</option>
-                                    <option value="Holguín (Frank País)">Holguín (Frank País)</option>
-                                    <option value="Santiago de Cuba (Antonio Maceo)">Santiago de Cuba (Antonio Maceo)</option>
-                                    <option value="Camagüey (Ignacio Agramonte)">Camagüey (Ignacio Agramonte)</option>
-                                    <option value="Cayo Coco (Jardines del Rey)">Cayo Coco (Jardines del Rey)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha y Hora de Recogida</label>
-                                <input type="datetime-local" id="recogida" onchange="calcularPrecio()" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha y Hora de Devolución</label>
-                                <input type="datetime-local" id="devolucion" onchange="calcularPrecio()" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
+                <form onsubmit="enviarWhatsApp(event)" class="p-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Vehículo Deseado</label>
+                            <select id="carro" onchange="calcularPrecio()" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 outline-none" required>
+                                <option value="" data-precio="0" disabled selected>Selecciona un auto...</option>
+                                <option value="MG3 - Económica Manual" data-precio="60">MG3 - Económica Manual ($60/día)</option>
+                                <option value="Hyundai i10 - Económica Automática" data-precio="70">Hyundai i10 - Económica Automática ($70/día)</option>
+                                <option value="Dongfeng Yixuan - Media Manual" data-precio="75">Dongfeng Yixuan - Media Manual ($75/día)</option>
+                            </select>
                         </div>
-
-                        <!-- CALCULADORA AUTOMÁTICA VISUAL MEJORADA -->
-                        <div id="cajaCalculadora" class="hidden mt-6 p-5 bg-blue-50 border border-blue-200 rounded-xl shadow-sm transition-all duration-300">
-                            <h4 class="text-blue-900 font-bold mb-2 flex items-center">
-                                <i class="fa-solid fa-calculator mr-2"></i> Cotización Estimada
-                            </h4>
-                            <div class="flex justify-between items-center border-b border-blue-200 pb-2 mb-2">
-                                <span class="text-blue-800">Tarifa del vehículo:</span>
-                                <span class="font-bold text-blue-900">$<span id="calcTarifa">0</span> / día</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-blue-200 pb-2 mb-2">
-                                <span class="text-blue-800">Días de renta:</span>
-                                <span id="calcDias" class="font-bold text-blue-900 text-lg">0</span>
-                            </div>
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-blue-900 font-bold text-lg">Total a Pagar:</span>
-                                <span class="font-bold text-green-600 text-2xl">$<span id="calcTotal">0</span> USD</span>
-                            </div>
-                            <p class="text-xs text-blue-600 mt-2">*El total de días se calcula al ingresar las fechas. No incluye seguros adicionales si aplican.</p>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Aeropuerto de Recogida</label>
+                            <select id="aeropuerto" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 outline-none" required>
+                                <option value="" disabled selected>Selecciona aeropuerto...</option>
+                                <option value="La Habana (José Martí)">La Habana (José Martí)</option>
+                                <option value="Varadero (Juan Gualberto Gómez)">Varadero (Juan Gualberto Gómez)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Recogida</label>
+                            <input type="datetime-local" id="recogida" onchange="calcularPrecio()" required class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Devolución</label>
+                            <input type="datetime-local" id="devolucion" onchange="calcularPrecio()" required class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none">
                         </div>
                     </div>
 
-                    <!-- Datos Personales -->
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">2. Datos del Conductor</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
-                                <input type="text" id="nombre" required placeholder="Ej. Juan Pérez" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono (WhatsApp)</label>
-                                <input type="tel" id="telefono" required placeholder="+1 234 567 8900" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Número de Pasaporte</label>
-                                <input type="text" id="pasaporte" required placeholder="Obligatorio" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Número de Vuelo (Opcional)</label>
-                                <input type="text" id="vuelo" placeholder="Indícanos tu número de vuelo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none transition">
-                            </div>
-                        </div>
+                    <!-- Calculadora -->
+                    <div id="cajaCalculadora" class="hidden p-5 bg-blue-50 border border-blue-200 rounded-xl">
+                        <div class="flex justify-between items-center"><span class="text-blue-800 font-medium">Total Estimado:</span><span class="font-bold text-green-600 text-2xl">$<span id="calcTotal">0</span> USD</span></div>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition duration-300 text-lg">
-                        <i class="fa-solid fa-paper-plane mr-2"></i> Enviar Solicitud por WhatsApp
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label><input type="text" id="nombre" required class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Teléfono WhatsApp</label><input type="tel" id="telefono" required class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Pasaporte</label><input type="text" id="pasaporte" required class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">Vuelo (Opcional)</label><input type="text" id="vuelo" class="w-full px-4 py-3 border border-gray-300 rounded-xl outline-none"></div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition text-lg">
+                        Enviar Solicitud y Guardar Pedido
                     </button>
-                    
-                    <p class="text-xs text-gray-500 text-center mt-4">
-                        Al enviar, serás redirigido a WhatsApp con tus datos pre-cargados. No se realizará ningún cobro en este paso.
-                    </p>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Sección de Rastreo de Orden -->
-    <section id="rastreo" class="pt-28 pb-20 bg-gray-200 hidden min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Sección Rastreo -->
+    <section id="rastreo" class="pt-28 pb-20 bg-gray-100 hidden min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 text-center">
             <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100">
-                <i class="fa-solid fa-magnifying-glass text-4xl text-primary mb-4"></i>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Verifica el Estado de tu Reserva</h2>
-                <p class="text-gray-600 mb-8">Ingresa el código de 6 dígitos de tu orden para comprobar si tu vehículo está garantizado para tus fechas.</p>
-                
-                <form onsubmit="buscarOrden(event)" class="max-w-md mx-auto">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="text" id="numeroBuscado" required placeholder="Ej. 253080" class="flex-grow px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none text-center sm:text-left text-lg font-bold tracking-widest">
-                        <button type="submit" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                            Buscar
-                        </button>
-                    </div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Rastrear tu Orden</h2>
+                <p class="text-gray-600 mb-8">Ingresa tu número de orden de 6 dígitos.</p>
+                <form onsubmit="buscarOrden(event)" class="max-w-md mx-auto flex gap-4">
+                    <input type="text" id="numeroBuscado" required placeholder="Ej. 458921" class="flex-grow px-4 py-3 rounded-xl border border-gray-300 font-bold tracking-widest text-lg outline-none">
+                    <button type="submit" class="bg-primary hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition">Buscar</button>
                 </form>
-
-                <div id="resultadoBusqueda" class="hidden mt-8 transition-all duration-500">
-                </div>
+                <div id="resultadoBusqueda" class="hidden mt-8"></div>
             </div>
         </div>
     </section>
 
-    <!-- Sección de Términos y Condiciones -->
+    <!-- Sección Términos -->
     <section id="terminos" class="pt-28 pb-20 bg-gray-50 hidden min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-4 border-primary inline-block pb-2">Términos y Condiciones</h2>
-                
-                <div class="text-gray-600 text-sm space-y-4 max-h-[600px] overflow-y-auto pr-4">
-                    <h3 class="text-lg font-bold text-gray-800">Nuestra Compañía - Nuestro compromiso en ofrecer un servicio transparente</h3>
-                    <p>La Agencia CubaRentaCarOnline es una Marca comercial de la Empresa Cegs Travel SL con domicilio social en Urb La Serrania No 16 29603, Marbella, Malaga, España, CIF B93726677.</p>
-                    <p>Estimado cliente, utilizaremos todos nuestros conocimientos y habilidades para cuidadosamente preparar y confirmar de forma segura y confiable el paquete de productos y servicios que nos solicita. Sin embargo, los mismos estarán sujetos a los siguientes Términos y Condiciones de Viaje, los cuales regulan el arreglo contractual entre usted, El Cliente y nosotros, Cegs Travel SL (CubaRentaCarOnline), sus proveedores y asociados, actuando en este acto como representante de los mismos ante el Cliente.</p>
-                    <p>Por favor, lea cuidadosamente estas condiciones. Marcando "He leído y estoy de acuerdo con las condiciones de reserva" se compromete a cumplir dichas condiciones y confirma que tiene la autoridad de aceptar estos términos en nombre de todas las personas incluidas en el grupo.</p>
-                    <p>Las empresas rentadoras de autos y otros proveedores de servicios son empresas independientes y no agentes o empleados de CubaRentaCarOnline. CubaRentaCarOnline no se responsabiliza por los actos, errores, omisiones, garantías, infracciones o negligencias de ninguno de estos proveedores, así como tampoco de los daños personales o de la propiedad, muerte u otros daños y costos derivados de lo anteriormente expresado.</p>
+        <div class="max-w-4xl mx-auto px-4 bg-white p-8 rounded-3xl shadow-sm">
+            <h2 class="text-2xl font-bold mb-4">Términos y Condiciones</h2>
+            <p class="text-gray-600 text-sm">Normas y políticas de alquiler de vehículos en Cuba...</p>
+        </div>
+    </section>
 
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">1. Política de Protección de Datos</h3>
-                    <p>La información personal proveída por el Cliente a CubaRentaCarOnline, sus proveedores y asociados, será procesada electrónicamente y será utilizada solamente para la realización de este contrato y para dar soporte al Cliente.</p>
+    <!-- Sección Panel de Administración Oculto -->
+    <section id="admin-panel" class="pt-28 pb-20 bg-gray-100 hidden min-h-screen">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900"><i class="fa-solid fa-gauge-high text-primary mr-2"></i> Panel de Administración</h2>
+                        <p class="text-sm text-gray-500">Control de pedidos y estados de pago.</p>
+                    </div>
+                    <button onclick="cargarReservasAdmin()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-xl text-sm transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Actualizar
+                    </button>
+                </div>
 
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">2. Contrato</h3>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>Al hacer una reserva con CubaRentaCarOnline, se debe a estas condiciones de reserva.</li>
-                        <li>CubaRentaCarOnline no acepta reservaciones hechas por personas menores de 21 años.</li>
-                        <li>El pago deberá ser realizado en la forma especificada en la página web y en los correos de confirmación. El pago siempre será en euros (€) o dólares ($).</li>
-                    </ul>
-
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">3. Cambios</h3>
-                    <p>Los cambios realizados a la reservación una vez validada, siempre y cuando no sea causada por CubaRentaCarOnline, sus proveedores y asociados, siempre desde el principio de buena fe, serán permitidos solo si los cambios no son considerables y si son justificados.</p>
-
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">4. Política de Cancelación/Reembolso</h3>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>De 60 a 30 días de antelación: penalidad correspondiente al 25% del valor de los días renta.</li>
-                        <li>De 30 a 15 días de antelación: penalidad correspondiente al 50% del valor de los días renta.</li>
-                        <li>Inferior a 15 días y/o No Show: penalidad correspondiente al 100%.</li>
-                    </ul>
-
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">5. Responsabilidad</h3>
-                    <p>Es un requerimiento obligatorio por parte de las autoridades cubanas que todas las personas que viajen a Cuba, extranjeros y cubanos residentes en el exterior, posean un seguro médico que cubra toda tu estancia. En el momento de entrada al país todos los pasajeros deberán mostrar una prueba de la tenencia de este seguro.</p>
-
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">6. Reclamaciones y emergencias</h3>
-                    <p>Todas las reclamaciones deben ser reportadas en primer lugar a los representantes de la oficina de renta. CubaRentaCarOnline no aceptará ningún reclamo de reembolso si el cliente no se puso en contacto con nuestros representantes en Cuba en el momento de la incidencia.</p>
-
-                    <h3 class="text-lg font-bold text-gray-800 mt-6">7. Condiciones específicas para el Alquiler de Autos en Cuba</h3>
-                    <p><strong>7.1 ¿Qué se incluye en su reserva?</strong> La renta del coche tal y como se confirmó en su reserva, con kilometraje ilimitado.</p>
-                    <p><strong>7.2 ¿Qué no se incluye en su reserva?</strong> Impuestos aeroportuarios, transporte, suplementos de recogida/entrega, cargos por conductor adicional, combustible, depósito, seguro, multas.</p>
-                    <p><strong>7.3 Pagos en la oficina de renta:</strong> Además del precio pagado a CubaRentaCarOnline, los seguros obligatorios, depósito de garantía, adelantado de tanque de combustible y suplementos de recogida deben ser pagados en USD obligatoriamente con tarjeta Visa, MasterCard o tarjetas en MLC emitidas en Cuba.</p>
-                    <p><strong>7.4 ¿Qué debe presentar al recoger el coche?</strong> Voucher de confirmación, Pasaporte, Permiso de conducir válido (con más de 3 meses de antigüedad) y Tarjeta de pago.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider border-b">
+                                <th class="p-3">Orden</th>
+                                <th class="p-3">Cliente / Tel</th>
+                                <th class="p-3">Vehículo</th>
+                                <th class="p-3">Estado</th>
+                                <th class="p-3 text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReservasAdmin" class="divide-y divide-gray-100 text-sm">
+                            <tr><td colspan="5" class="p-6 text-center text-gray-400">Inicia sesión como admin para ver los pedidos...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer arreglado con logo.png -->
-    <footer class="bg-gray-900 text-gray-300 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <img src="img/logo.png" onerror="this.src='https://placehold.co/150x50/333333/a1a1aa?text=TU+LOGO'" alt="Logo Renta" class="h-10 mb-6 cursor-pointer" onclick="showSection('inicio')">
-                <p class="text-gray-400 text-sm">Tu mejor opción para recorrer Cuba. Vehículos seguros, económicos y listos para tu aventura en la isla.</p>
+    <!-- Modal Autenticación -->
+    <div id="authModal" class="fixed inset-0 z-[60] bg-gray-900/60 backdrop-blur-sm hidden flex justify-center items-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-md mx-4 rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300" id="authModalContent">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-900" id="authModalTitle">Iniciar Sesión</h3>
+                <button onclick="toggleModalAuth()" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-2xl"></i></button>
             </div>
-            <div>
-                <h4 class="text-white font-bold mb-4">Enlaces Rápidos</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" onclick="showSection('inicio'); return false;" class="hover:text-primary transition">Inicio</a></li>
-                    <li><a href="#" onclick="showSection('quienes-somos'); return false;" class="hover:text-primary transition">Quiénes Somos</a></li>
-                    <li><a href="#" onclick="showSection('flota'); return false;" class="hover:text-primary transition">Flota de Autos</a></li>
-                    <li><a href="#" onclick="showSection('reserva'); return false;" class="hover:text-primary transition">Reservar</a></li>
-                    <li><a href="#" onclick="showSection('rastreo'); return false;" class="hover:text-primary transition">Rastrear Orden</a></li>
-                    <li><a href="#" onclick="showSection('terminos'); return false;" class="hover:text-primary transition">Términos y Condiciones</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-4">Contacto</h4>
-                <ul class="space-y-2 text-sm">
-                    <li>
-                        <a href="https://wa.me/5358423730?text=Hola,%20estoy%20interesado%20en%20alg%C3%BAn%20auto%20de%20su%20compa%C3%B1%C3%ADa." target="_blank" class="flex items-center hover:text-green-500 transition">
-                            <i class="fa-brands fa-whatsapp w-6 text-green-500 mr-2"></i> +53 58423730
-                        </a>
-                    </li>
-                    <li class="flex items-center mt-2"><i class="fa-regular fa-envelope w-6 text-gray-400 mr-2"></i> cacarcubarent@gmail.com</li>
-                    <li class="flex items-center mt-2"><i class="fa-solid fa-location-dot w-6 text-gray-400 mr-2"></i> Cuba</li>
-                </ul>
+            <div class="p-6 sm:p-8">
+                <form id="authForm" onsubmit="manejarAutenticacion(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                        <input type="email" id="authEmail" required placeholder="tu@correo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                        <input type="password" id="authPassword" required placeholder="••••••••" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                    <button type="submit" id="authSubmitBtn" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition">
+                        Entrar a mi cuenta
+                    </button>
+                </form>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-            &copy; 2024 CubaRentaCarOnline. Todos los derechos reservados.
-        </div>
-    </footer>
+    </div>
 
-    <!-- Scripts de interactividad -->
-    <script>
-        // Función SPA: Mostrar solo la sección seleccionada y ocultar el resto
-        function showSection(id) {
-            const secciones = ['inicio', 'quienes-somos', 'flota', 'reserva', 'rastreo', 'terminos'];
-            secciones.forEach(sec => {
-                document.getElementById(sec).classList.add('hidden');
-            });
-            document.getElementById(id).classList.remove('hidden');
-            
-            // Cerrar menú móvil si está abierto
-            document.getElementById('mobile-menu').classList.add('hidden');
-            
-            // Subir al tope de la página
-            window.scrollTo(0, 0);
-        }
+    <!-- Firebase y Lógica del Sistema -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Restricción de fechas y horas (Solo a partir de este momento)
-        document.addEventListener('DOMContentLoaded', () => {
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            const currentDateTime = now.toISOString().slice(0, 16); 
-            
-            document.getElementById('recogida').setAttribute('min', currentDateTime);
-            document.getElementById('devolucion').setAttribute('min', currentDateTime);
-        });
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4bFOYcQsfzBMvkGKKbqY1f-y9izVqBS8",
+            authDomain: "cubarentaca.firebaseapp.com",
+            projectId: "cubarentaca",
+            storageBucket: "cubarentaca.firebasestorage.app",
+            messagingSenderId: "859955613068",
+            appId: "1:859955613068:web:6df5ce64dc0f1b27f4daa9",
+            measurementId: "G-1SSWLJ80SC"
+        };
 
-        // Menú móvil responsive
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        window.db = db;
 
-        // Función para autoseleccionar auto y cambiar a la página de Reserva
-        function selectCarAndScroll(carName) {
-            // Mostrar la página de reserva
-            showSection('reserva');
-            
-            // Autoseleccionar el carro en la lista
-            const selectElement = document.getElementById('carro');
-            selectElement.value = carName;
-            
-            // Efecto visual para destacar que se seleccionó
-            selectElement.classList.add('ring-2', 'ring-green-500');
-            setTimeout(() => {
-                selectElement.classList.remove('ring-2', 'ring-green-500');
-            }, 1500);
+        // Vigilar estado de sesión
+        onAuthStateChanged(auth, (user) => {
+            const btnNav = document.getElementById('btnCuentaNav');
+            const adminBtn = document.getElementById('adminNavBtn');
+            const adminMobileBtn = document.getElementById('adminMobileNavBtn');
 
-            // Activar la calculadora inmediatamente
-            calcularPrecio();
-        }
-
-        // CALCULADORA AUTOMÁTICA MEJORADA
-        function calcularPrecio() {
-            const selectCarro = document.getElementById('carro');
-            const recogidaInput = document.getElementById('recogida').value;
-            const devolucionInput = document.getElementById('devolucion').value;
-            const cajaCalculadora = document.getElementById('cajaCalculadora');
-
-            // Si ya seleccionó el auto, mostramos la caja con la tarifa
-            if (selectCarro.value) {
-                cajaCalculadora.classList.remove('hidden');
-                
-                // Extraer el precio diario guardado en data-precio
-                const precioDiario = parseInt(selectCarro.options[selectCarro.selectedIndex].getAttribute('data-precio'));
-                document.getElementById('calcTarifa').innerText = precioDiario;
-
-                // Si ya seleccionó las dos fechas, calculamos los días y el total
-                if (recogidaInput && devolucionInput) {
-                    const fecha1 = new Date(recogidaInput);
-                    const fecha2 = new Date(devolucionInput);
-                    
-                    const diffTime = fecha2 - fecha1;
-                    
-                    if (diffTime > 0) {
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        const total = diffDays * precioDiario;
-
-                        document.getElementById('calcDias').innerText = diffDays;
-                        document.getElementById('calcTotal').innerText = total;
-                        return { dias: diffDays, total: total }; // Se retorna para usar en el WhatsApp
-                    } else {
-                        // Fechas incorrectas (devolución antes que recogida)
-                        document.getElementById('calcDias').innerText = "0";
-                        document.getElementById('calcTotal').innerText = "0";
-                    }
-                } else {
-                    // Faltan fechas por seleccionar
-                    document.getElementById('calcDias').innerText = "0";
-                    document.getElementById('calcTotal').innerText = "0";
-                }
+            if (user) {
+                btnNav.innerHTML = `<i class="fa-solid fa-user-check mr-2"></i> Mi Cuenta`;
+                // Si eres tú el que inició sesión, mostramos los botones de Administrador
+                if(adminBtn) adminBtn.classList.remove('hidden');
+                if(adminMobileBtn) adminMobileBtn.classList.remove('hidden');
             } else {
-                // Si no hay carro seleccionado, se oculta la calculadora
-                cajaCalculadora.classList.add('hidden');
+                btnNav.innerHTML = `<i class="fa-regular fa-user mr-2"></i> Iniciar Sesión`;
+                // Si no hay nadie o es un cliente normal, se ocultan los botones de Admin
+                if(adminBtn) adminBtn.classList.add('hidden');
+                if(adminMobileBtn) adminMobileBtn.classList.add('hidden');
             }
-            return null;
-        }
+        });
 
-        // Lógica de envío a WhatsApp (Reservas)
-        function enviarWhatsApp(event) {
-            event.preventDefault(); 
-            
-            const btn = document.getElementById('submitBtn');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Preparando WhatsApp...';
-            
+        window.manejarAutenticacion = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPassword').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+                toggleModalAuth();
+                alert("¡Sesión iniciada correctamente!");
+            } catch(err) {
+                alert("Error al iniciar sesión: " + err.message);
+            }
+        };
+
+        window.protegerAdmin = function() {
+            const user = auth.currentUser;
+            if (user) {
+                showSection('admin-panel');
+                window.cargarReservasAdmin();
+            } else {
+                alert("Debes iniciar sesión con tu cuenta de administrador para acceder al panel.");
+                toggleModalAuth();
+            }
+        };
+
+        window.cargarReservasAdmin = async function() {
+            const tbody = document.getElementById('tablaReservasAdmin');
+            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-400">Cargando pedidos...</td></tr>`;
+            try {
+                const querySnapshot = await getDocs(collection(db, "reservas"));
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-400">No hay reservas registradas.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const garantizado = data.estado === "Garantizado";
+                    
+                    // Texto listo para enviar por WhatsApp al cliente al aprobar
+                    const textoWap = `¡Hola ${data.nombre}! 👋 Tu pago ha sido verificado con éxito en Cuba Renta Car. 🚗✨\n\nAquí tienes los detalles de tu reserva confirmada:\n- *Número de Orden:* #${data.orden}\n- *Vehículo:* ${data.carro}\n- *Recogida:* ${data.recogida} (${data.aeropuerto})\n- *Devolución:* ${data.devolucion}\n\nPuedes rastrear tu orden en cualquier momento en nuestra página web introduciendo tu número. ¡Te deseamos una excelente estancia y un feliz viaje a Cuba! 🌴☀️`;
+
+                    html += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-bold">#${data.orden}</td>
+                            <td class="p-3"><div class="font-bold">${data.nombre}</div><div class="text-xs text-gray-500">${data.telefono}</div></td>
+                            <td class="p-3 text-blue-600 font-medium">${data.carro}</td>
+                            <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${garantizado ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${data.estado}</span></td>
+                            <td class="p-3 text-center flex justify-center gap-2">
+                                <button onclick="cambiarEstado('${id}', '${garantizado ? 'Pendiente de Pago' : 'Garantizado'}')" class="bg-gray-900 hover:bg-primary text-white text-xs px-3 py-1.5 rounded-lg transition">
+                                    ${garantizado ? 'Marcar Pendiente' : 'Aprobar Pago'}
+                                </button>
+                                ${garantizado ? `<a href="https://wa.me/${data.telefono.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(textoWap)}" target="_blank" class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-lg flex items-center transition" title="Enviar WhatsApp con Voucher"><i class="fa-brands fa-whatsapp text-sm"></i></a>` : ''}
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-500">Error al cargar datos.</td></tr>`;
+            }
+        };
+
+        window.cambiarEstado = async function(id, nuevoEstado) {
+            await updateDoc(doc(db, "reservas", id), { estado: nuevoEstado });
+            window.cargarReservasAdmin();
+        };
+
+        window.enviarWhatsApp = async function(event) {
+            event.preventDefault();
             const carro = document.getElementById('carro').value;
-            const recogida = document.getElementById('recogida').value.replace('T', ' a las ');
-            const devolucion = document.getElementById('devolucion').value.replace('T', ' a las ');
+            const recogida = document.getElementById('recogida').value;
+            const devolucion = document.getElementById('devolucion').value;
             const aeropuerto = document.getElementById('aeropuerto').value;
-            
             const nombre = document.getElementById('nombre').value;
             const telefono = document.getElementById('telefono').value;
             const pasaporte = document.getElementById('pasaporte').value;
-            // Recuperamos el valor del vuelo opcional
-            const vuelo = document.getElementById('vuelo').value;
-            
-            // Calculamos el total antes de enviar
-            const calculo = calcularPrecio();
-            let textoCotizacion = "";
-            if (calculo && calculo.total > 0) {
-                textoCotizacion = `\n💰 *COTIZACIÓN ESTIMADA*\n*Días:* ${calculo.dias}\n*Tarifa:* $${document.getElementById('calcTarifa').innerText}/día\n*Total a pagar:* $${calculo.total} USD\n`;
-            }
+            const orden = Math.floor(100000 + Math.random() * 900000).toString();
 
-            const numeroOrden = Math.floor(100000 + Math.random() * 900000);
-            
-            const ordenDatos = {
-                carro: carro,
-                recogida: recogida,
-                devolucion: devolucion,
-                aeropuerto: aeropuerto
-            };
-            localStorage.setItem(numeroOrden.toString(), JSON.stringify(ordenDatos));
-            
-            let mensaje = `🚗 *NUEVA SOLICITUD DE RESERVA* 🚗\n`;
-            mensaje += `🔖 *Orden #:* ${numeroOrden}\n\n`;
-            
-            mensaje += `📋 *DETALLES DEL VIAJE*\n`;
-            mensaje += `*Vehículo:* ${carro}\n`;
-            mensaje += `*Lugar de Recogida:* ${aeropuerto}\n`;
-            mensaje += `*Fecha Recogida:* ${recogida}\n`;
-            mensaje += `*Fecha Devolución:* ${devolucion}\n`;
-            
-            // Se agrega la cotización al WhatsApp
-            mensaje += textoCotizacion;
-            
-            mensaje += `\n👤 *DATOS DEL CLIENTE*\n`;
-            mensaje += `*Nombre:* ${nombre}\n`;
-            mensaje += `*Teléfono:* ${telefono}\n`;
-            mensaje += `*Pasaporte:* ${pasaporte}\n`;
-            
-            // Si el cliente escribió su número de vuelo, se añade al mensaje
-            if(vuelo && vuelo.trim() !== '') {
-                mensaje += `*Vuelo:* ${vuelo}\n`;
-            }
-            
-            const numeroWhatsApp = "5358423730";
-            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-            
-            setTimeout(() => {
-                window.open(url, '_blank');
-                btn.innerHTML = '<i class="fa-solid fa-check text-2xl mr-3"></i> ¡Redirigido con éxito!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                }, 5000);
-            }, 1000);
-        }
+            try {
+                await addDoc(collection(db, "reservas"), {
+                    orden, carro, recogida, devolucion, aeropuerto, nombre, telefono, pasaporte,
+                    estado: "Pendiente de Pago",
+                    fecha: new Date()
+                });
+            } catch(e) { console.error(e); }
 
-        // Lógica para buscar la orden
-        function buscarOrden(event) {
+            const mensaje = `🚗 *NUEVA RESERVA*\nOrden: #${orden}\nAuto: ${carro}\nCliente: ${nombre}\nEstado: Pendiente de Pago`;
+            window.open(`https://wa.me/5358423730?text=${encodeURIComponent(mensaje)}`, '_blank');
+        };
+
+        window.buscarOrden = async function(event) {
             event.preventDefault();
-            const numero = document.getElementById('numeroBuscado').value.trim();
-            const resultadoDiv = document.getElementById('resultadoBusqueda');
-            
-            const ordenGuardada = localStorage.getItem(numero);
-            
-            if (ordenGuardada) {
-                const datos = JSON.parse(ordenGuardada);
-                resultadoDiv.innerHTML = `
-                    <div class="p-6 bg-green-50 border border-green-200 rounded-xl text-left shadow-sm">
-                        <h4 class="text-green-800 font-bold text-xl mb-3 flex items-center">
-                            <i class="fa-solid fa-circle-check text-2xl mr-2"></i> Reserva Garantizada
-                        </h4>
-                        <p class="text-gray-800 mb-1"><strong>Orden #:</strong> ${numero}</p>
-                        <p class="text-gray-800 mb-1"><strong>Vehículo:</strong> ${datos.carro}</p>
-                        <p class="text-gray-800 mb-1"><strong>Fecha de Recogida:</strong> ${datos.recogida}</p>
-                        <p class="text-gray-800 mb-1"><strong>Lugar:</strong> ${datos.aeropuerto}</p>
-                        <div class="mt-4 p-3 bg-green-100 rounded-lg border border-green-200">
-                            <p class="text-green-800 text-sm font-medium"><i class="fa-solid fa-shield-halved mr-1"></i> ¡Todo está listo! Tu vehículo está asegurado para las fechas seleccionadas.</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                resultadoDiv.innerHTML = `
-                    <div class="p-6 bg-red-50 border border-red-200 rounded-xl text-left shadow-sm">
-                        <h4 class="text-red-800 font-bold text-xl mb-3 flex items-center">
-                            <i class="fa-solid fa-circle-xmark text-2xl mr-2"></i> Orden No Encontrada
-                        </h4>
-                        <p class="text-red-700">No encontramos ninguna reserva activa con el número <strong>${numero}</strong>.</p>
-                        <p class="text-red-700 text-sm mt-2">Por favor, verifica que el número esté bien escrito. Si acabas de hacer la reserva desde otro dispositivo, consúltanos por WhatsApp.</p>
-                    </div>
-                `;
+            const num = document.getElementById('numeroBuscado').value.trim();
+            const res = document.getElementById('resultadoBusqueda');
+            res.classList.remove('hidden');
+            res.innerHTML = `<p class="text-blue-600">Buscando...</p>`;
+            try {
+                const querySnapshot = await getDocs(collection(db, "reservas"));
+                let encontrada = null;
+                let docId = null;
+                querySnapshot.forEach((docSnap) => { 
+                    if(docSnap.data().orden === num) {
+                        encontrada = docSnap.data();
+                        docId = docSnap.id;
+                    }
+                });
+                if(encontrada) {
+                    const garantizado = encontrada.estado === "Garantizado";
+                    let htmlVoucher = `
+                        <div class="p-6 bg-white border rounded-2xl shadow-sm text-left space-y-4">
+                            <div class="flex justify-between items-start border-b pb-4">
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-900">Orden #${encontrada.orden}</h4>
+                                    <p class="text-xs text-gray-500">Cuba Renta Car - Comprobante Oficial</p>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${garantizado ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${encontrada.estado}</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div><strong>Cliente:</strong> ${encontrada.nombre}</div>
+                                <div><strong>Teléfono:</strong> ${encontrada.telefono}</div>
+                                <div><strong>Pasaporte:</strong> ${encontrada.pasaporte}</div>
+                                <div><strong>Vehículo:</strong> <span class="text-primary font-medium">${encontrada.carro}</span></div>
+                                <div><strong>Recogida:</strong> ${encontrada.recogida}</div>
+                                <div><strong>Devolución:</strong> ${encontrada.devolucion}</div>
+                                <div class="md:col-span-2"><strong>Aeropuerto:</strong> ${encontrada.aeropuerto}</div>
+                            </div>`;
+                    
+                    if(garantizado) {
+                        htmlVoucher += `
+                            <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center justify-between">
+                                <div>
+                                    <div class="font-bold text-green-800"><i class="fa-solid fa-circle-check mr-1"></i> ¡Reserva Garantizada y Pagada!</div>
+                                    <p class="text-xs text-green-600 mt-0.5">Presenta este código QR al momento de retirar tu vehículo en el aeropuerto.</p>
+                                </div>
+                                <div class="bg-white p-2 border rounded-lg shadow-sm">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=CubaRentaCar-Orden-${encontrada.orden}" alt="Código QR de Reserva" class="w-20 h-20">
+                                </div>
+                            </div>`;
+                    } else {
+                        htmlVoucher += `
+                            <div class="mt-4 p-4 bg-yellow-50 text-yellow-800 rounded-xl text-sm">
+                                <i class="fa-solid fa-clock mr-1"></i> Tu orden está pendiente de verificación de pago. En breve un agente te contactará.
+                            </div>`;
+                    }
+                    htmlVoucher += `</div>`;
+                    res.innerHTML = htmlVoucher;
+                } else {
+                    res.innerHTML = `<div class="p-4 bg-red-50 text-red-700 rounded-xl">No se encontró la orden #${num}.</div>`;
+                }
+            } catch(e) { res.innerHTML = `<p class="text-red-600">Error en búsqueda.</p>`; }
+        };
+    </script>
+
+    <script>
+        function showSection(id) {
+            ['inicio', 'quienes-somos', 'flota', 'reserva', 'rastreo', 'terminos', 'admin-panel'].forEach(sec => {
+                const el = document.getElementById(sec);
+                if(el) el.classList.add('hidden');
+            });
+            const active = document.getElementById(id);
+            if(active) {
+                active.classList.remove('hidden');
+                active.classList.add('animate-fade-in');
             }
-            resultadoDiv.classList.remove('hidden');
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo(0, 0);
         }
+
+        function toggleModalAuth() {
+            const m = document.getElementById('authModal');
+            const c = document.getElementById('authModalContent');
+            if (m.classList.contains('hidden')) {
+                m.classList.remove('hidden');
+                setTimeout(() => { m.classList.remove('opacity-0'); c.classList.remove('scale-95'); }, 10);
+            } else {
+                m.classList.add('opacity-0'); c.classList.add('scale-95');
+                setTimeout(() => m.classList.add('hidden'), 300);
+            }
+        }
+
+        function selectCarAndScroll(car) {
+            showSection('reserva');
+            document.getElementById('carro').value = car;
+            calcularPrecio();
+        }
+
+        function calcularPrecio() {
+            const carro = document.getElementById('carro');
+            const rec = document.getElementById('recogida').value;
+            const dev = document.getElementById('devolucion').value;
+            const caja = document.getElementById('cajaCalculadora');
+            if (carro.value && rec && dev) {
+                const precio = parseInt(carro.options[carro.selectedIndex].getAttribute('data-precio'));
+                const dias = Math.ceil((new Date(dev) - new Date(rec)) / (1000 * 60 * 60 * 24));
+                if (dias > 0) {
+                    caja.classList.remove('hidden');
+                    document.getElementById('calcTotal').innerText = dias * precio;
+                } else { caja.classList.add('hidden'); }
+            } else { caja.classList.add('hidden'); }
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>
